@@ -46,6 +46,16 @@ function findWeekOfYear(date){
     return week;
 }
 
+async function listCommitments(userId, order, number){
+    const existUser = await usersRepository.findById(userId);
+    if(!existUser) throw notFound();
+
+    const arrayCommitments = await commitmentRepository.list(userId, order, number);
+
+    return arrayCommitments;
+}
+
 export {
-    postCommitment
+    postCommitment,
+    listCommitments
 }

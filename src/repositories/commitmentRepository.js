@@ -30,6 +30,17 @@ async function insert(
     );
 }
 
+async function list(userId, order, number){
+    const results = await connection.query(`
+        SELECT * FROM commitments WHERE "userId"=$1 
+        AND ${order}=${number}
+        ORDER BY "startHour";
+    `, [userId]);
+
+    return results.rows;
+}
+
 export {
-    insert
+    insert,
+    list
 }
