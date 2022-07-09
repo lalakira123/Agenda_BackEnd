@@ -9,6 +9,15 @@ async function findByEmail(email){
     return result.rows[0];
 }
 
+async function findById(id){
+    const result = await connection.query(
+        `SELECT * FROM users WHERE id=$1`,
+        [id]
+    );
+
+    return result.rows[0];
+}
+
 async function insert(name, email, hashPassword){
     await connection.query(
         `
@@ -21,5 +30,6 @@ async function insert(name, email, hashPassword){
 
 export {
     findByEmail,
-    insert
+    insert,
+    findById
 }
