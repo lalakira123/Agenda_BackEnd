@@ -18,3 +18,13 @@ export async function listCommitments(req, res){
 
     res.send(commitments);
 }
+
+export async function updateCommitment(req, res){
+    const { id } = req.params;
+    const { userId } = res.locals;
+    const infoCommitment = req.body;
+
+    await commitmentService.updateCommitment(id, userId, infoCommitment);
+
+    res.sendStatus(200);
+}

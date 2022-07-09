@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear.js';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 
-import { notFound, unprocessableEntity } from './../middlewares/handleErrorMiddleware.js';
+import { notFound, unprocessableEntity, forbidden } from './../middlewares/handleErrorMiddleware.js';
 
 import * as usersRepository from './../repositories/usersRepository.js';
 import * as commitmentRepository from './../repositories/commitmentRepository.js';
@@ -55,7 +55,27 @@ async function listCommitments(userId, order, number){
     return arrayCommitments;
 }
 
+async function updateCommitment(commitmentId, userId, infoCommitment){
+    const { type, place, startHour, finishHour, alarmHour, date } = infoCommitment;
+
+    const commitmentExist = await commitmentRepository.findById(commitmentId);
+    if(!commitmentExist) throw notFound();
+    if(commitmentExist.userId != userId) throw forbidden();
+
+    compareHour(startHour, finishHour);
+    compareHour(alarmHour, startHour);
+
+    const {day, month, year} = sliceDate(date);
+
+    const weekOfYear = findWeekOfYear(date);
+
+    await commitmentRepository.update(
+        commitmentId, type, place, startHour, finishHour, alarmHour, year, month, weekOfYear, day
+    );
+}
+
 export {
     postCommitment,
-    listCommitments
+    listCommitments,
+    updateCommitment
 }
