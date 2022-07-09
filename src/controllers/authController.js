@@ -7,3 +7,11 @@ export async function signUp(req, res){
 
     res.sendStatus(201);
 }
+
+export async function signIn(req, res){
+    const { email, password } = req.body;
+
+    const infoUser = await authService.signIn(email, password);
+
+    res.status(200).send(infoUser);
+}
