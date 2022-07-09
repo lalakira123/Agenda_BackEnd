@@ -28,3 +28,12 @@ export async function updateCommitment(req, res){
 
     res.sendStatus(200);
 }
+
+export async function deleteCommitment(req, res){
+    const { id } = req.params;
+    const { userId } = res.locals;
+
+    await commitmentService.deleteCommitment(id, userId);
+
+    res.sendStatus(200);
+}

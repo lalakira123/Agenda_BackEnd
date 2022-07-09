@@ -74,8 +74,17 @@ async function updateCommitment(commitmentId, userId, infoCommitment){
     );
 }
 
+async function deleteCommitment(commitmentId, userId){
+    const existCommitment = await commitmentRepository.findById(commitmentId);
+    if(!existCommitment) throw notFound();
+    if(existCommitment.userId != userId) throw forbidden();
+
+    await commitmentRepository.deleteCommitment(commitmentId);
+}
+
 export {
     postCommitment,
     listCommitments,
-    updateCommitment
+    updateCommitment,
+    deleteCommitment
 }

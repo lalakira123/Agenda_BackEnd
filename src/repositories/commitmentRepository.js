@@ -76,9 +76,16 @@ async function update(
     `, [type, place, startHour, finishHour, alarmHour, year, month, week, day, commitmentId]);
 }
 
+async function deleteCommitment(commitmentId){
+    await connection.query(`
+        DELETE FROM commitments WHERE id=$1
+    `, [commitmentId]);
+}
+
 export {
     insert,
     list,
     findById,
-    update
+    update,
+    deleteCommitment
 }
