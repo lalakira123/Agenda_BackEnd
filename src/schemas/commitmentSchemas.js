@@ -11,3 +11,7 @@ export const commitmentSchema = Joi.object({
     alarmHour: Joi.string().regex(/^([0-9]{2})\:([0-9]{2})$/),
     date: Joi.date().required()
 });
+
+export const commitmentIdSchema = Joi.object({
+    commitmentId: Joi.number().required()
+})
